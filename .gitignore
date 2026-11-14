@@ -1,0 +1,16 @@
+# Claves y configuración local (NUNCA a GitHub)
+.env
+.env.*
+*.pem
+*.key
+
+# Dependencias y Vercel
+node_modules/
+.vercel/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+NUL

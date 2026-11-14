@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oficina virtual 3D · por Profitia</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Cpath d=%27M16 3l11 6.5v13L16 29 5 22.5v-13z%27 fill=%27%237c5ce6%27/%3E%3C/svg%3E">
+<meta name="description" content="Una oficina futurista en 3D donde tus agentes trabajan, se consultan, entregan y descansan. Plantilla gratuita de Profitia.">
+<style>
+:root{--bg:#eef2f8;--ink:#161c28;--muted:#5b6475;--line:#dfe5ee;--accent:#7c5ce6;--ok:#3fbf7f;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:ui-monospace,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);overflow:hidden}
+#escena{position:fixed;inset:0}
+#mundo{position:absolute;inset:0}#mundo canvas{display:block;cursor:grab;touch-action:none}
+#etiquetas{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.et{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;gap:4px;white-space:nowrap}
+.et .nom{font:600 11px var(--sans);color:#1d2433;background:rgba(255,255,255,.85);padding:1px 6px;border-radius:4px}
+.et .bur{font:600 12px var(--sans);color:#161c28;background:rgba(255,255,255,.96);border:1px solid var(--line);padding:4px 9px;border-radius:10px;box-shadow:0 4px 14px rgba(20,30,60,.16);max-width:280px;overflow:hidden;text-overflow:ellipsis}
+.et .bur.g{background:#efe9ff;border-color:#c9b8ff}
+.placa{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;gap:2px;pointer-events:none}
+.placa b{max-width:150px;overflow:hidden;text-overflow:ellipsis;font:700 11px var(--sans);color:#1d2433;background:rgba(255,255,255,.9);padding:1px 6px;border-radius:3px;white-space:nowrap}
+.placa i{font:600 10px var(--sans);font-style:normal;color:#fff;padding:0 6px;border-radius:3px}
+.resumen{position:absolute;left:0;top:0;min-width:190px;max-width:240px;background:rgba(255,255,255,.95);border-top:4px solid var(--c);border-radius:6px;padding:9px 11px;box-shadow:0 6px 18px rgba(0,0,0,.18);color:#1d2433;font:11px/1.4 var(--sans);pointer-events:none}
+.resumen b{display:block;font:italic 900 14px 'Arial Black',Arial,sans-serif;color:var(--c);margin-bottom:4px}
+.resumen .fila{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}.resumen .fila span{background:#eef1f6;border-radius:3px;padding:1px 6px;font-weight:600}
+.resumen .deps{display:flex;height:7px;border-radius:4px;overflow:hidden;background:#eef1f6}.resumen .deps i{flex:var(--n)}
+.resumen .ley{color:#5b6475;margin:3px 0 0}
+#barra{position:absolute;left:16px;right:12px;top:10px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;pointer-events:none;z-index:4}
+#cabecera{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#cabecera b{font-size:18px;letter-spacing:.01em;color:#1d2433}
+#cabecera a{font:600 12px var(--sans);color:var(--accent);text-decoration:none;pointer-events:auto}
+.vivo{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+#marcador{display:flex;flex-wrap:wrap;gap:6px;font:600 12px/1 var(--sans);text-transform:uppercase}
+#marcador span{padding:7px 11px;color:#1d2433;background:rgba(255,255,255,.92);white-space:nowrap;border-radius:999px;box-shadow:0 1px 6px rgba(20,30,60,.12)}
+#marcador .eq{background:var(--accent);color:#fff}#marcador .reloj{background:#1d2433;color:#fff}#marcador .demo{background:#fff4d6;color:#8a5a00}
+#vistas{display:flex;flex-wrap:wrap;gap:6px;pointer-events:auto}
+#vistas button{font:inherit;font-size:13px;cursor:pointer;background:rgba(255,255,255,.92);color:#1d2433;border:1px solid #cfd6e2;border-radius:6px;padding:6px 11px}
+#vistas button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#ayuda{position:absolute;left:16px;bottom:12px;max-width:calc(100% - 32px);font:12px var(--sans);color:#4b5568;background:rgba(255,255,255,.85);padding:4px 10px;border-radius:6px}
+#actividad{position:absolute;right:12px;bottom:12px;width:300px;background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:10px;padding:10px 12px;box-shadow:0 6px 18px rgba(20,30,60,.12);font-size:12px}
+#actividad h2{margin:0 0 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+#actividad ol{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+#actividad li{display:grid;grid-template-columns:auto 1fr;gap:6px;align-items:baseline}
+#actividad li i{width:8px;height:8px;border-radius:2px;display:inline-block}
+#actividad li b{font-weight:600}#actividad li span{color:var(--muted)}
+#ficha{position:absolute;right:12px;top:12px;width:300px;max-width:calc(100% - 24px);background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 10px 30px rgba(20,30,60,.2);display:grid;gap:6px;z-index:6}
+#ficha[hidden]{display:none}
+#ficha .cerrar{position:absolute;right:8px;top:6px;border:0;background:none;font-size:22px;cursor:pointer;color:var(--muted)}
+#ficha .dep{justify-self:start;color:#fff;font:700 10px var(--sans);letter-spacing:.06em;padding:2px 7px;border-radius:4px}
+#ficha b{font-size:16px}#ficha .puesto{color:var(--muted)}#ficha .estado{font-weight:600}
+#ficha .ahora{font:12px var(--mono);color:#a3640a}#ficha .sub{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:4px}
+#ficha ul{margin:0;padding-left:18px;color:#33405a}
+#cargando{position:absolute;inset:0;display:grid;place-items:center;background:var(--bg);z-index:10;font-weight:600;color:var(--muted);transition:opacity .6s}
+#cargando.fuera{opacity:0;pointer-events:none}
+@media (max-width:760px){#actividad{display:none}#ayuda{font-size:11px}#marcador span{padding:6px 9px;font-size:11px}}
+</style>
+</head>
+<body>
+<div id="escena">
+  <div id="mundo" aria-label="Oficina virtual en 3D: cada departamento es un edificio y sus agentes trabajan dentro"></div>
+  <div id="etiquetas"></div>
+  <div id="barra">
+    <div id="cabecera"><i class="vivo"></i><b id="titulo">Oficina virtual 3D</b><a href="https://profitia.digital" target="_blank" rel="noopener">por Profitia</a></div>
+    <div id="marcador" aria-live="polite"></div>
+    <nav id="vistas" aria-label="Ir a"><button data-v="general" aria-pressed="true">Vista general</button><button data-v="oficina" aria-pressed="false">Tu oficina</button><button id="caminar" aria-pressed="false" title="Recorrer la oficina a pie">Caminar</button></nav>
+  </div>
+  <button id="avanza" hidden aria-label="Avanzar" style="position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:64px;height:64px;border-radius:50%;border:1px solid #dfe5ee;background:rgba(255,255,255,.92);font-size:24px;box-shadow:0 4px 14px rgba(20,30,60,.18);touch-action:none;z-index:5">▲</button>
+  <div id="ayuda">Arrastra para girar · clic derecho o Shift para desplazarte · rueda para acercar · WASD para moverte · clic en un agente o edificio</div>
+  <section id="actividad" aria-live="polite"><h2><span>Lo que pasa ahora</span><span>simulación</span></h2><ol id="lista"></ol></section>
+  <div id="ficha" hidden role="dialog" aria-label="Ficha del agente"></div>
+  <div id="cargando">Montando la oficina…</div>
+</div>
+<script src="oficina.config.js"></script>
+<script>
+'use strict';
+(() => {
+  const C = window.OFICINA || {}, $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  if (C.colorCentral) document.documentElement.style.setProperty('--accent', C.colorCentral);
+  $('#titulo').textContent = `${C.empresa || 'Mi Empresa'} · ${C.lema || 'Oficina virtual 3D'}`;
+  document.title = `${C.empresa || 'Mi Empresa'} · Oficina virtual 3D · por Profitia`;
+  const nAgentes = (C.departamentos || []).reduce((n, d) => n + (d.agentes || []).filter((a) => a.estado !== 'no_existe').length, 0);
+  let trabajando = 0;
+  function marcador() {
+    $('#marcador').innerHTML = `<span class="eq">${esc(C.empresa || 'Mi Empresa')}</span><span>${(C.departamentos || []).length} departamentos</span><span>${trabajando}/${nAgentes} trabajando</span><span class="demo">demo</span><span class="reloj">${new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}</span>`;
+  }
+  const contar = () => { const g = window.OFICINA3D?.gente; if (g) trabajando = Object.values(g).filter((x) => !x.gerente && !x.recepcion && x.demo && x.demo.fase !== 'ocio').length; marcador(); };
+  marcador(); setInterval(contar, 1000);
+  addEventListener('oficina:actividad', (e) => {
+    contar();
+    $('#lista').innerHTML = e.detail.slice(0, 6).map((a) => `<li><i style="background:${esc(a.color)}"></i><div><b>${esc(a.quien)}</b> <span>${esc(a.texto)}</span></div></li>`).join('');
+  });
+  addEventListener('oficina:lista', () => $('#cargando').classList.add('fuera'));
+  addEventListener('oficina:error', (e) => { $('#cargando').textContent = 'No se pudo montar la oficina: ' + e.detail; });
+})();
+</script>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script type="module" src="oficina3d.js"></script>
+</body>
+</html>
