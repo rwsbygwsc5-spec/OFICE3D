@@ -1,18 +1,18 @@
 // ============================================================
-//  OFICINA VIRTUAL 3D · TU CONFIGURACIÓN
+//  OFICINA VIRTUAL 3D · CONFIGURACIÓN DE ACU-ABAE CATALUNYA
 //  Cambia aquí el nombre, los departamentos, los colores y los agentes.
-//  Todo lo de este archivo son DATOS DE EJEMPLO (empresa ficticia).
+//  La actividad es una SIMULACIÓN: aquí no van datos reales de socios ni claves.
 // ============================================================
 window.OFICINA = {
   // Nombre que flota sobre el núcleo central y sale en la cabecera
-  empresa: 'Mi Empresa',
+  empresa: 'ASSOCIACIÓ ACU-ABAE CATALUNYA',
   lema: 'Oficina virtual 3D',
-  colorCentral: '#7c5ce6',
+  colorCentral: '#00BDB1',
 
   // Recepción, en el centro (pon `recepcion: false` para quitarla)
   recepcion: {
     nombre: 'Recepción',
-    tareas: ['Lee un mensaje nuevo y decide a quién pasarlo', 'Busca en internet: horario de un proveedor', 'Escribe la respuesta de bienvenida'],
+    tareas: ['Lee una consulta nueva y decide a qué departamento pasarla', 'Busca en internet: organismo competente para una reclamación', 'Escribe el mensaje de bienvenida'],
   },
 
   // Cada departamento es un edificio (máximo 5). Cada agente tiene su propia oficina dentro.
@@ -23,41 +23,37 @@ window.OFICINA = {
   // Las tareas que empiezan por «Busca en internet» o «Lee» cambian el holograma que flota sobre el agente.
   departamentos: [
     {
-      id: 'ventas',
-      nombre: 'Ventas',
-      color: '#3f7be0',
-      responsable: { nombre: 'Responsable de ventas', tareas: ['Reparte los contactos del día', 'Revisa las propuestas del equipo', 'Mira el embudo de la semana'] },
+      id: 'juridico',
+      nombre: 'Jurídico',
+      color: '#2f7fe0',
+      responsable: { nombre: 'Responsable jurídico', tareas: ['Reparte los asuntos del día', 'Revisa los escritos del equipo', 'Lee los plazos que vencen esta semana'] },
       agentes: [
-        { id: 'ventas-1', nombre: 'Agente de ventas', puesto: 'Propuestas', oficina: 'ventas',
-          tareas: ['Lee la ficha de un contacto nuevo', 'Escribe una propuesta a medida', 'Busca en internet: precios de la competencia'] },
-        { id: 'ventas-2', nombre: 'Agente de captación', puesto: 'Captación', oficina: 'captacion',
-          tareas: ['Busca en internet: negocios de la zona', 'Escribe el primer mensaje', 'Lee las respuestas de ayer'] },
+        { id: 'juridico-1', nombre: 'Agente de reclamaciones', puesto: 'Redacción de reclamaciones', oficina: 'entrega',
+          tareas: ['Lee la documentación de un caso', 'Busca en internet: normativa de consumo aplicable', 'Escribe la reclamación extrajudicial'] },
+        { id: 'juridico-2', nombre: 'Agente de informes jurídicos', puesto: 'Redacción de informes jurídicos', oficina: 'investigacion',
+          tareas: ['Lee un contrato y sus condiciones generales', 'Busca en internet: jurisprudencia reciente', 'Escribe el informe jurídico'] },
+        { id: 'juridico-3', nombre: 'Agente de demandas', puesto: 'Redacción de demandas judiciales', oficina: 'direccion',
+          tareas: ['Lee los hechos y las pruebas del asunto', 'Busca en internet: doctrina del Tribunal Supremo', 'Escribe la demanda judicial'] },
       ],
     },
     {
       id: 'atencion',
-      nombre: 'Atención al cliente',
-      color: '#2f9e6a',
-      responsable: { nombre: 'Responsable de atención', tareas: ['Revisa las conversaciones abiertas', 'Escribe las respuestas tipo', 'Lee las valoraciones de la semana'] },
+      nombre: 'Atención',
+      color: '#2fae6e',
+      responsable: { nombre: 'Responsable de atención', tareas: ['Revisa las consultas abiertas', 'Escribe las respuestas tipo', 'Lee las valoraciones de la semana'] },
       agentes: [
-        { id: 'atencion-1', nombre: 'Agente de soporte', puesto: 'Soporte', oficina: 'atencion',
-          tareas: ['Lee el mensaje de un cliente', 'Escribe la respuesta', 'Busca en internet: solución a una incidencia'] },
-        { id: 'atencion-2', nombre: 'Agente de seguimiento', puesto: 'Seguimiento', oficina: 'entrega',
-          tareas: ['Lee el estado de un pedido', 'Escribe el aviso de envío', 'Escribe la encuesta de satisfacción'] },
+        { id: 'atencion-1', nombre: 'Agente de respuestas', puesto: 'Respuestas a consultas', oficina: 'atencion',
+          tareas: ['Lee la consulta de un socio', 'Busca en internet: información oficial sobre el trámite', 'Escribe la respuesta'] },
       ],
     },
     {
       id: 'contenido',
       nombre: 'Contenido',
-      color: '#d98a2b',
-      responsable: { nombre: 'Responsable de contenido', tareas: ['Planifica el calendario', 'Revisa los textos del equipo', 'Lee los números de las redes'] },
+      color: '#e09a2b',
+      responsable: { nombre: 'Responsable de contenido', tareas: ['Planifica el calendario de publicaciones', 'Revisa los textos del equipo', 'Lee los resultados de las redes'] },
       agentes: [
         { id: 'contenido-1', nombre: 'Agente de redes', puesto: 'Redes sociales', oficina: 'contenido',
-          tareas: ['Busca en internet: tendencias de la semana', 'Escribe el guion de un vídeo', 'Escribe los textos de las publicaciones'] },
-        { id: 'contenido-2', nombre: 'Agente de blog', puesto: 'Blog y web', oficina: 'investigacion',
-          tareas: ['Lee las preguntas de los clientes', 'Busca en internet: palabras clave', 'Escribe un artículo del blog'] },
-        { id: 'contenido-3', nombre: 'Agente de diseño', puesto: 'Diseño', oficina: 'pizarra', dibujo: 'wireframe',
-          tareas: ['Escribe las ideas de portada', 'Lee la guía de marca', 'Escribe los textos del anuncio'] },
+          tareas: ['Busca en internet: novedades de consumo de la semana', 'Lee la guía de estilo de la asociación', 'Escribe los textos de las publicaciones'] },
       ],
     },
   ],
